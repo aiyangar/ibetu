@@ -137,3 +137,38 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# React PWA specific files
+# Build output
+build/
+dist/
+
+# Service Worker files (generated)
+sw.js
+sw.js.map
+workbox-*.js
+workbox-*.js.map
+
+# PWA manifest cache
+sw-precache-v2-sw.js
+sw-precache-v2-sw.js.map
+
+# Workbox cache
+workbox-cache-*
+
+# PWA icons and assets (if generated)
+public/icons/
+public/manifest.json
+
+# Lighthouse reports
+lighthouse-report.html
+lighthouse-report.json
+
+# PWA testing files
+pwa-test-results/
+
+# Service Worker registration cache
+sw-registration.js
+
+# PWA development tools
+pwa-builder/

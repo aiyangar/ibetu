@@ -1,34 +1,79 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { AuthForm } from './components/AuthForm'
+import { DataManager } from './components/DataManager'
+import { useAuth } from './hooks/useAuth'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [activeTab, setActiveTab] = useState('auth')
+  const { user, loading } = useAuth()
+
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <p>Cargando aplicación...</p>
+      </div>
+    )
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
+    <div className="App">
+      <header className="App-header">
+        <h1>🚀 iBetu PWA + Supabase</h1>
+        <p>Tu aplicación PWA conectada a Supabase</p>
+      </header>
+
+      <main className="App-main">
+        {!user ? (
+          <div className="auth-section">
+            <h2>🔐 Autenticación</h2>
+            <AuthForm />
+          </div>
+        ) : (
+          <div className="dashboard">
+            <nav className="tab-navigation">
+              <button 
+                className={`tab-button ${activeTab === 'auth' ? 'active' : ''}`}
+                onClick={() => setActiveTab('auth')}
+              >
+                👤 Perfil
+              </button>
+              <button 
+                className={`tab-button ${activeTab === 'data' ? 'active' : ''}`}
+                onClick={() => setActiveTab('data')}
+              >
+                📊 Datos
+              </button>
+            </nav>
+
+            <div className="tab-content">
+              {activeTab === 'auth' && (
+                <div className="auth-section">
+                  <h2>👤 Perfil de Usuario</h2>
+                  <AuthForm />
+                </div>
+              )}
+              
+              {activeTab === 'data' && (
+                <div className="data-section">
+                  <DataManager />
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </main>
+
+      <footer className="App-footer">
         <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
+          <strong>iBetu PWA</strong> - Conectado a Supabase
         </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+        <p>
+          Estado: {user ? '🟢 Autenticado' : '🔴 No autenticado'}
+        </p>
+      </footer>
+    </div>
   )
 }
 

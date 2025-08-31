@@ -362,20 +362,7 @@
   align-self: flex-end;
 }
 
-/* Footer */
-.App-footer {
-  text-align: center;
-  padding: 1rem;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  margin-top: auto;
-}
 
-.App-footer p {
-  margin: 0.25rem 0;
-  opacity: 0.8;
-  font-size: clamp(0.8rem, 2.5vw, 0.9rem);
-}
 
 /* Responsive design - Mobile First */
 @media (max-width: 480px) {

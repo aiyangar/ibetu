@@ -3,6 +3,7 @@ import { AuthForm } from './components/AuthForm'
 import { DataManager } from './components/DataManager'
 import { LandingPage } from './components/LandingPage'
 import { Navbar } from './components/Navbar'
+import { Footer } from './components/Footer'
 import { useAuth } from './hooks/useAuth'
 import './App.css'
 import './MainLayout.css'
@@ -67,14 +68,7 @@ function App() {
         )}
       </main>
 
-      <footer className="App-footer">
-        <p>
-          <strong>iBetU PWA</strong> - Conectado a Supabase
-        </p>
-        <p>
-          Estado: {user ? '🟢 Autenticado' : '🔴 No autenticado'}
-        </p>
-      </footer>
+      <Footer />
     </div>
   )
 }

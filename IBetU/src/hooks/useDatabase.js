@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { supabase } from '../lib/supabase'
+import { supabaseAdmin } from '../lib/supabase'
 
 export function useDatabase() {
   const [loading, setLoading] = useState(false)
@@ -11,7 +11,7 @@ export function useDatabase() {
       setLoading(true)
       setError(null)
       
-      let queryBuilder = supabase.from(table).select('*')
+      let queryBuilder = supabaseAdmin.from(table).select('*')
       
       // Aplicar filtros si existen
       if (query.filters) {
@@ -48,7 +48,7 @@ export function useDatabase() {
       setLoading(true)
       setError(null)
       
-      const { data: result, error } = await supabase
+      const { data: result, error } = await supabaseAdmin
         .from(table)
         .insert(data)
         .select()
@@ -69,7 +69,7 @@ export function useDatabase() {
       setLoading(true)
       setError(null)
       
-      const { data, error } = await supabase
+      const { data, error } = await supabaseAdmin
         .from(table)
         .update(updates)
         .eq('id', id)
@@ -91,7 +91,7 @@ export function useDatabase() {
       setLoading(true)
       setError(null)
       
-      const { error } = await supabase
+      const { error } = await supabaseAdmin
         .from(table)
         .delete()
         .eq('id', id)
@@ -108,7 +108,7 @@ export function useDatabase() {
 
   // Función para suscribirse a cambios en tiempo real
   const subscribeToChanges = (table, callback) => {
-    const subscription = supabase
+    const subscription = supabaseAdmin
       .channel(`${table}_changes`)
       .on('postgres_changes', 
         { event: '*', schema: 'public', table: table }, 
@@ -127,7 +127,7 @@ export function useDatabase() {
       setLoading(true)
       setError(null)
       
-      const { data, error } = await supabase.storage
+      const { data, error } = await supabaseAdmin.storage
         .from(bucket)
         .upload(path, file)
       
@@ -143,7 +143,7 @@ export function useDatabase() {
 
   // Función para obtener URL de archivo
   const getFileUrl = (bucket, path) => {
-    const { data } = supabase.storage
+    const { data } = supabaseAdmin.storage
       .from(bucket)
       .getPublicUrl(path)
     

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { AuthForm } from './components/AuthForm'
 import { DataManager } from './components/DataManager'
 import { LandingPage } from './components/LandingPage'
+import { Navbar } from './components/Navbar'
 import { useAuth } from './hooks/useAuth'
 import './App.css'
 import './MainLayout.css'
@@ -21,10 +22,8 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>🚀 iBetu PWA + Supabase</h1>
-        <p>Tu aplicación PWA conectada a Supabase</p>
-      </header>
+      {/* Navbar fija en la parte superior */}
+      <Navbar />
 
       <main className="App-main">
         {/* Landing Page siempre visible */}
@@ -66,19 +65,11 @@ function App() {
             </div>
           </div>
         )}
-
-        {/* Mostrar formulario de autenticación si no hay usuario */}
-        {!user && (
-          <div className="auth-section">
-            <h2>🔐 Iniciar Sesión</h2>
-            <AuthForm />
-          </div>
-        )}
       </main>
 
       <footer className="App-footer">
         <p>
-          <strong>iBetu PWA</strong> - Conectado a Supabase
+          <strong>iBetU PWA</strong> - Conectado a Supabase
         </p>
         <p>
           Estado: {user ? '🟢 Autenticado' : '🔴 No autenticado'}

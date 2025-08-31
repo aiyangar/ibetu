@@ -81,18 +81,7 @@ export function LandingPage() {
               ${topParticipant?.total_paid?.toFixed(2) || '0.00'}
             </span>
           </div>
-          <div className="stat-item">
-            <span className="stat-label">Email:</span>
-            <span className="stat-value">{topParticipant?.email || 'N/A'}</span>
-          </div>
         </div>
-        
-        {!user && (
-          <div className="cta-section">
-            <p className="cta-text">¿Quieres ver más detalles?</p>
-            <p className="cta-subtext">Inicia sesión para acceder a todas las funcionalidades</p>
-          </div>
-        )}
       </div>
       
       <div className="floating-elements">

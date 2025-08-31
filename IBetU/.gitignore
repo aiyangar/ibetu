@@ -25,3 +25,4 @@ dist-ssr
 
 # Supabase configuration files
 supabase-setup.sql
+dev-config.js

@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { AuthForm } from './components/AuthForm'
 import { DataManager } from './components/DataManager'
+import { LandingPage } from './components/LandingPage'
 import { useAuth } from './hooks/useAuth'
 import './App.css'
+import './MainLayout.css'
 
 function App() {
-  const [activeTab, setActiveTab] = useState('auth')
+  const [activeTab, setActiveTab] = useState('landing')
   const { user, loading } = useAuth()
 
   if (loading) {
@@ -25,12 +27,13 @@ function App() {
       </header>
 
       <main className="App-main">
-        {!user ? (
-          <div className="auth-section">
-            <h2>🔐 Autenticación</h2>
-            <AuthForm />
-          </div>
-        ) : (
+        {/* Landing Page siempre visible */}
+        <div className="landing-section">
+          <LandingPage />
+        </div>
+
+        {/* Sección de autenticación y dashboard solo si hay usuario */}
+        {user && (
           <div className="dashboard">
             <nav className="tab-navigation">
               <button 
@@ -61,6 +64,14 @@ function App() {
                 </div>
               )}
             </div>
+          </div>
+        )}
+
+        {/* Mostrar formulario de autenticación si no hay usuario */}
+        {!user && (
+          <div className="auth-section">
+            <h2>🔐 Iniciar Sesión</h2>
+            <AuthForm />
           </div>
         )}
       </main>

@@ -4,8 +4,8 @@ import { LandingPage } from './components/LandingPage'
 import { Navbar } from './components/Navbar'
 import { Footer } from './components/Footer'
 import { useAuth } from './hooks/useAuth'
-import './App.css'
-import './MainLayout.css'
+import './styles/App.css'
+import './styles/MainLayout.css'
 
 function App() {
   const [activeTab, setActiveTab] = useState('landing')

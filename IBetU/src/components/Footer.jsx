@@ -1,5 +1,5 @@
 import { useAuth } from '../hooks/useAuth'
-import '../Footer.css'
+import '../styles/Footer.css'
 
 export function Footer() {
   const { user } = useAuth()

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useDatabase } from '../hooks/useDatabase'
 import { useAuth } from '../hooks/useAuth'
 import { DataManager } from './DataManager'
-import '../LandingPage.css'
+import '../styles/LandingPage.css'
 
 export function LandingPage() {
   const [topParticipant, setTopParticipant] = useState(null)

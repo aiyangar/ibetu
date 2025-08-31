@@ -1,7 +1,7 @@
 import { useAuth } from '../hooks/useAuth'
 import { useModal } from '../hooks/useModal'
 import { AuthForm } from './AuthForm'
-import '../Navbar.css'
+import '../styles/Navbar.css'
 
 export function Navbar() {
   const { isOpen: showAuthModal, openModal: openAuthModal, closeModal: closeAuthModal } = useModal()

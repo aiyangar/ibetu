@@ -24,6 +24,7 @@
   animation: fadeInUp 1s ease-out;
   position: relative;
   z-index: 2;
+  margin-bottom: 2rem;
 }
 
 .crown-icon {
@@ -81,6 +82,22 @@
   color: #ffd700;
   font-weight: 800;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* DataManager Section */
+.data-manager-section {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  animation: fadeInUp 1s ease-out 0.3s both;
+  position: relative;
+  z-index: 2;
 }
 
 /* Loading and Error States */
@@ -225,6 +242,11 @@
   
   .hero-section {
     padding: 2rem 1rem;
+    margin: 0 0.5rem 1rem 0.5rem;
+  }
+  
+  .data-manager-section {
+    padding: 1rem;
     margin: 0 0.5rem;
   }
   
@@ -242,6 +264,11 @@
 @media (max-width: 768px) {
   .hero-section {
     padding: 2.5rem 2rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .data-manager-section {
+    padding: 1.5rem;
   }
 }
 
@@ -252,6 +279,11 @@
   
   .hero-section {
     padding: 1.5rem 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .data-manager-section {
+    padding: 1rem 2rem;
   }
   
   .main-title {

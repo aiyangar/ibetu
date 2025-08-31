@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { AuthForm } from './components/AuthForm'
-import { DataManager } from './components/DataManager'
 import { LandingPage } from './components/LandingPage'
 import { Navbar } from './components/Navbar'
 import { Footer } from './components/Footer'
@@ -32,7 +31,7 @@ function App() {
           <LandingPage />
         </div>
 
-        {/* Sección de autenticación y dashboard solo si hay usuario */}
+        {/* Sección de autenticación solo si hay usuario */}
         {user && (
           <div className="dashboard">
             <nav className="tab-navigation">
@@ -42,12 +41,6 @@ function App() {
               >
                 👤 Perfil
               </button>
-              <button 
-                className={`tab-button ${activeTab === 'data' ? 'active' : ''}`}
-                onClick={() => setActiveTab('data')}
-              >
-                📊 Datos
-              </button>
             </nav>
 
             <div className="tab-content">
@@ -55,12 +48,6 @@ function App() {
                 <div className="auth-section">
                   <h2>👤 Perfil de Usuario</h2>
                   <AuthForm />
-                </div>
-              )}
-              
-              {activeTab === 'data' && (
-                <div className="data-section">
-                  <DataManager />
                 </div>
               )}
             </div>

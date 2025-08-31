@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useDatabase } from '../hooks/useDatabase'
 import { useAuth } from '../hooks/useAuth'
+import { DataManager } from './DataManager'
 import '../LandingPage.css'
 
 export function LandingPage() {
@@ -83,6 +84,13 @@ export function LandingPage() {
           </div>
         </div>
       </div>
+
+      {/* DataManager centrado en la pantalla */}
+      {user && (
+        <div className="data-manager-section">
+          <DataManager />
+        </div>
+      )}
       
       <div className="floating-elements">
         <div className="floating-icon">💰</div>

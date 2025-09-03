@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
-import './TopParticipant.css';
+import '../styles/TopParticipant.css';
 
 const TopParticipant = () => {
   const [topParticipant, setTopParticipant] = useState(null);

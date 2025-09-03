@@ -1,0 +1,105 @@
+.landing-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.welcome-section {
+  text-align: center;
+  padding: 2rem 0;
+  margin-bottom: 2rem;
+}
+
+.beat-champion-section {
+  text-align: center;
+  padding: 1rem 0;
+  margin-bottom: 2rem;
+}
+
+.beat-champion-btn {
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  border: none;
+  border-radius: 16px;
+  padding: 1.25rem 2.5rem;
+  color: #333;
+  font-size: 1.3rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+  min-width: 300px;
+}
+
+.beat-champion-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(255, 215, 0, 0.6);
+}
+
+.beat-champion-btn:active {
+  transform: translateY(-1px);
+}
+
+.beat-champion-subtitle {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+  margin: 1rem 0 0 0;
+  font-style: italic;
+}
+
+.back-button-container {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.back-btn, .back-button {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 0.875rem 1.5rem;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.back-btn:hover, .back-button:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .beat-champion-btn {
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    min-width: 280px;
+  }
+  
+  .welcome-section {
+    padding: 1.5rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .beat-champion-btn {
+    padding: 0.875rem 1.5rem;
+    font-size: 1.1rem;
+    min-width: 260px;
+  }
+  
+  .welcome-section {
+    padding: 1rem 0;
+  }
+  
+  .back-btn, .back-button {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.95rem;
+  }
+}

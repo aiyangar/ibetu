@@ -13,10 +13,10 @@ export function Layout({
 }) {
   return (
     <div className={`layout-container ${className}`}>
-      {/* Navbar fijo en todas las páginas */}
+      {/* Fixed navbar on all pages */}
       <Navbar />
       
-      {/* Sección Top */}
+      {/* Top Section */}
       {top && (
         <div className={`layout-top ${topClassName}`}>
           <div className="layout-width-container">
@@ -27,7 +27,7 @@ export function Layout({
         </div>
       )}
       
-      {/* Sección Content */}
+      {/* Content Section */}
       {content && (
         <div className={`layout-content ${contentClassName}`}>
           <div className="layout-width-container">
@@ -38,7 +38,7 @@ export function Layout({
         </div>
       )}
       
-      {/* Sección Bottom */}
+      {/* Bottom Section */}
       {bottom && (
         <div className={`layout-bottom ${bottomClassName}`}>
           <div className="layout-width-container">
@@ -49,13 +49,13 @@ export function Layout({
         </div>
       )}
       
-      {/* Footer fijo en todas las páginas */}
+      {/* Fixed footer on all pages */}
       <Footer />
     </div>
   )
 }
 
-// Componentes individuales para mayor flexibilidad
+// Individual components for greater flexibility
 export function LayoutTop({ children, className = '' }) {
   return (
     <div className={`layout-top ${className}`}>
@@ -92,7 +92,7 @@ export function LayoutBottom({ children, className = '' }) {
   )
 }
 
-// Componentes de utilidad
+// Utility components
 export function LayoutSection({ children, className = '' }) {
   return (
     <div className={`layout-section ${className}`}>

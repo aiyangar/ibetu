@@ -7,10 +7,10 @@ const Footer = () => {
       <div className="footer-container">
         <h4 className="footer-title">🚀 I Bet U</h4>
         <p className="footer-copyright">
-          © 2024 I Bet U - Todos los derechos reservados
+          © 2024 I Bet U - All rights reserved
         </p>
         <p className="footer-version">
-          Versión 1.0.0 | Desarrollado con ❤️
+          Version 1.0.0 | Built with ❤️
         </p>
       </div>
     </footer>

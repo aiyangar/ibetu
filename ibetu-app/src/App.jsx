@@ -4,7 +4,7 @@ import LandingPage from './components/LandingPage'
 function App() {
   return (
     <>
-      {/* Landing Page con Navbar y Footer fijos */}
+      {/* Landing Page with fixed Navbar and Footer */}
       <Layout
         content={<LandingPage />}
       />

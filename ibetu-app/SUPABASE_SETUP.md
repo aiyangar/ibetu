@@ -1,104 +1,189 @@
-# 🔌 Configuración de Supabase
+# 🚀 I Bet U - Supabase Setup Guide
 
-## Variables de Entorno Requeridas
+## 📋 Overview
+This guide will help you set up Supabase for the I Bet U application, which includes user authentication and a competitive payment system.
 
-Para que la aplicación funcione correctamente con Supabase, necesitas crear un archivo `.env` en la raíz del proyecto con las siguientes variables:
+## 🔧 Prerequisites
+- Supabase account (free tier available)
+- Basic knowledge of SQL
 
-```bash
-# Supabase Configuration
-VITE_SUPABASE_URL=https://your-project-id.supabase.co
-VITE_SUPABASE_ANON_KEY=your-anon-key-here
+## 🗄️ Database Setup
+
+### 1. Create a new Supabase project
+1. Go to [supabase.com](https://supabase.com)
+2. Sign up/Login and create a new project
+3. Wait for the project to be ready
+
+### 2. Get your credentials
+1. Go to Settings → API
+2. Copy your `Project URL` and `anon public` key
+3. Create a `.env` file in your project root with:
+
+```env
+VITE_SUPABASE_URL=your_project_url_here
+VITE_SUPABASE_ANON_KEY=your_anon_key_here
 ```
 
-## 📋 Pasos para Configurar Supabase
+### 3. Create the database tables
 
-### 1. Crear Proyecto en Supabase
-- Ve a [https://supabase.com](https://supabase.com)
-- Inicia sesión o crea una cuenta
-- Crea un nuevo proyecto
+Run these SQL commands in your Supabase SQL Editor:
 
-### 2. Obtener Credenciales
-- En tu proyecto, ve a **Settings** > **API**
-- Copia la **Project URL**
-- Copia la **anon/public key**
-
-### 3. Crear Archivo .env
-En la raíz del proyecto (`ibetu-app/`), crea un archivo llamado `.env`:
-
-```bash
-VITE_SUPABASE_URL=https://tu-proyecto-id.supabase.co
-VITE_SUPABASE_ANON_KEY=tu-anon-key-aqui
-```
-
-### 4. Crear Tablas en Supabase
-
-#### Tabla `participants`
 ```sql
+-- Enable UUID extension
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+-- Participants table
 CREATE TABLE participants (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   nickname TEXT NOT NULL,
   email TEXT UNIQUE NOT NULL,
-  total_paid NUMERIC DEFAULT 0
+  total_paid NUMERIC DEFAULT 0,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
-```
 
-#### Tabla `payments`
-```sql
+-- Payments table
 CREATE TABLE payments (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   participant_id UUID REFERENCES participants(id) ON DELETE CASCADE,
-  amount FLOAT4 NOT NULL,
+  amount NUMERIC NOT NULL CHECK (amount > 0),
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
+
+-- Create indexes for better performance
+CREATE INDEX idx_participants_email ON participants(email);
+CREATE INDEX idx_participants_total_paid ON participants(total_paid DESC);
+CREATE INDEX idx_payments_participant_id ON payments(participant_id);
+CREATE INDEX idx_payments_created_at ON payments(created_at DESC);
+
+-- Enable Row Level Security (RLS)
+ALTER TABLE participants ENABLE ROW LEVEL SECURITY;
+ALTER TABLE payments ENABLE ROW LEVEL SECURITY;
 ```
 
-### 5. Insertar Datos de Prueba
+### 4. Set up Row Level Security Policies
+
 ```sql
--- Insertar participantes de ejemplo
+-- Participants policies
+CREATE POLICY "Users can view all participants" ON participants
+  FOR SELECT USING (true);
+
+CREATE POLICY "Users can insert their own participant record" ON participants
+  FOR INSERT WITH CHECK (auth.email() = email);
+
+CREATE POLICY "Users can update their own participant record" ON participants
+  FOR UPDATE USING (auth.email() = email);
+
+-- Payments policies
+CREATE POLICY "Users can view all payments" ON payments
+  FOR SELECT USING (true);
+
+CREATE POLICY "Users can insert payments for themselves" ON payments
+  FOR INSERT WITH CHECK (
+    EXISTS (
+      SELECT 1 FROM participants 
+      WHERE id = participant_id 
+      AND email = auth.email()
+    )
+  );
+```
+
+### 5. Set up authentication
+
+1. Go to Authentication → Settings
+2. Enable Email confirmations (recommended for production)
+3. Configure your site URL
+4. Set up email templates if needed
+
+## 🧪 Testing the Setup
+
+### 1. Insert sample data (optional)
+
+```sql
+-- Insert sample participants
 INSERT INTO participants (nickname, email, total_paid) VALUES
-  ('Juan Pérez', 'juan@example.com', 150.00),
-  ('María García', 'maria@example.com', 200.00),
-  ('Carlos López', 'carlos@example.com', 75.50);
+  ('Champion', 'champion@example.com', 1000.00),
+  ('RunnerUp', 'runner@example.com', 750.50),
+  ('Newbie', 'newbie@example.com', 250.00);
 
--- Insertar pagos de ejemplo
+-- Insert sample payments
 INSERT INTO payments (participant_id, amount) VALUES
-  ((SELECT id FROM participants WHERE email = 'juan@example.com'), 50.00),
-  ((SELECT id FROM participants WHERE email = 'juan@example.com'), 100.00),
-  ((SELECT id FROM participants WHERE email = 'maria@example.com'), 200.00),
-  ((SELECT id FROM participants WHERE email = 'carlos@example.com'), 75.50);
+  ((SELECT id FROM participants WHERE email = 'champion@example.com'), 1000.00),
+  ((SELECT id FROM participants WHERE email = 'runner@example.com'), 750.50),
+  ((SELECT id FROM participants WHERE email = 'newbie@example.com'), 250.00);
 ```
 
-## 🔍 Verificar Conexión
+### 2. Test the connection
+1. Start your application
+2. Check the browser console for any errors
+3. Try to register a new user
+4. Try to make a payment
 
-Una vez configurado, el componente `SupabaseConnectionTest` en la landing page te mostrará:
+## 🔍 Troubleshooting
 
-- ✅ **Estado de conexión**
-- ✅ **Variables de entorno detectadas**
-- ✅ **Errores específicos** si los hay
-- ✅ **Datos de prueba** si la conexión es exitosa
+### Common Issues:
 
-## 🚨 Problemas Comunes
+1. **"Invalid API key" error**
+   - Check your `.env` file
+   - Ensure the key is copied correctly
+   - Restart your development server
 
-### Variables de entorno no configuradas
-- **Síntoma:** Error "Variables de entorno de Supabase no configuradas"
-- **Solución:** Crear archivo `.env` con las credenciales correctas
+2. **"Table doesn't exist" error**
+   - Run the SQL commands in the correct order
+   - Check if you're in the right database
 
-### Tabla no encontrada
-- **Síntoma:** Error "Conexión exitosa, pero la tabla no existe"
-- **Solución:** Crear las tablas en Supabase usando el SQL proporcionado
+3. **Authentication errors**
+   - Verify RLS policies are set up correctly
+   - Check if email confirmations are configured
 
-### Error de autenticación
-- **Síntoma:** Error 401 o 403
-- **Solución:** Verificar que la anon key sea correcta
+4. **Payment errors**
+   - Ensure the participant exists before making payments
+   - Check foreign key constraints
 
-### Error de red
-- **Síntoma:** Error de timeout o conexión rechazada
-- **Solución:** Verificar que la URL del proyecto sea correcta
+### Debug Queries:
 
-## 📱 Reiniciar Aplicación
+```sql
+-- Check if tables exist
+SELECT table_name FROM information_schema.tables 
+WHERE table_schema = 'public';
 
-Después de crear el archivo `.env`, **reinicia la aplicación** para que las variables de entorno se carguen:
+-- Check participants
+SELECT * FROM participants ORDER BY total_paid DESC;
 
-```bash
-npm run dev
+-- Check payments
+SELECT p.*, pt.nickname 
+FROM payments p 
+JOIN participants pt ON p.participant_id = pt.id 
+ORDER BY p.created_at DESC;
+
+-- Check RLS policies
+SELECT schemaname, tablename, policyname, permissive, roles, cmd, qual 
+FROM pg_policies 
+WHERE schemaname = 'public';
 ```
+
+## 🚀 Next Steps
+
+1. **Customize the UI**: Modify the form styles and layouts
+2. **Add validation**: Implement client-side and server-side validation
+3. **Payment processing**: Integrate with a real payment gateway
+4. **Analytics**: Add tracking for user engagement
+5. **Notifications**: Implement real-time updates when rankings change
+
+## 📚 Additional Resources
+
+- [Supabase Documentation](https://supabase.com/docs)
+- [Supabase JavaScript Client](https://supabase.com/docs/reference/javascript)
+- [Row Level Security Guide](https://supabase.com/docs/guides/auth/row-level-security)
+
+## 🆘 Support
+
+If you encounter issues:
+1. Check the Supabase logs in your dashboard
+2. Review the browser console for errors
+3. Verify your environment variables
+4. Check the RLS policies are correctly applied
+
+---
+
+**Happy coding! 🎉**

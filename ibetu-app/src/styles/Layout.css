@@ -18,14 +18,14 @@
   box-sizing: border-box;
 }
 
-/* Sección Top */
+/* Top Section */
 .layout-top {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   padding: 20px 0;
   position: sticky;
-  top: 80px; /* Ajustado para estar debajo del navbar */
+  top: 80px; /* Adjusted to be below navbar */
   z-index: 100;
 }
 
@@ -37,20 +37,29 @@
   gap: 20px;
 }
 
-/* Sección Content */
+/* Content Section */
 .layout-content {
   flex: 1;
-  padding: 40px 0;
-  min-height: calc(100vh - 200px); /* Altura mínima considerando top y bottom */
+  padding: 0;
+  min-height: calc(100vh - 80px - 120px); /* 100vh - navbar (80px) - footer (~120px) */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Vertical centering of content */
+  align-items: center; /* Horizontal centering of content */
 }
 
 .layout-content-inner {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 0;
+  flex: 1;
+  justify-content: center;
+  align-items: center; /* Horizontal centering of inner content */
+  width: 100%; /* Take full available width */
+  max-width: 1280px; /* Maintain maximum layout width */
 }
 
-/* Sección Bottom */
+/* Bottom Section */
 .layout-bottom {
   background: rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(20px);
@@ -71,6 +80,10 @@
   .layout-width-container {
     padding: 0 30px;
   }
+  
+  .layout-content-inner {
+    max-width: 100%;
+  }
 }
 
 @media (max-width: 1024px) {
@@ -79,7 +92,11 @@
   }
   
   .layout-content {
-    padding: 30px 0;
+    padding: 0;
+  }
+  
+  .layout-content-inner {
+    max-width: 100%;
   }
   
   .layout-top-content,
@@ -98,7 +115,12 @@
   }
   
   .layout-content {
-    padding: 25px 0;
+    padding: 0;
+  }
+  
+  .layout-content-inner {
+    max-width: 100%;
+    padding: 0 20px;
   }
   
   .layout-bottom {
@@ -123,7 +145,12 @@
   }
   
   .layout-content {
-    padding: 20px 0;
+    padding: 0;
+  }
+  
+  .layout-content-inner {
+    max-width: 100%;
+    padding: 0 15px;
   }
   
   .layout-bottom {
@@ -131,7 +158,7 @@
   }
 }
 
-/* Utilidades adicionales */
+/* Additional utilities */
 .layout-section {
   background: rgba(255, 255, 255, 0.05);
   border-radius: 16px;
@@ -156,7 +183,7 @@
   background: rgba(255, 255, 255, 0.12);
 }
 
-/* Grid system para el contenido */
+/* Grid system for content */
 .layout-grid {
   display: grid;
   gap: 20px;

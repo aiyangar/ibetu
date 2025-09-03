@@ -42,7 +42,7 @@ const TopParticipant = () => {
       <div className="top-participant-container">
         <div className="top-participant-card loading">
           <div className="loading-spinner"></div>
-          <p>Cargando participante destacado...</p>
+          <p>Loading top participant...</p>
         </div>
       </div>
     );
@@ -52,7 +52,7 @@ const TopParticipant = () => {
     return (
       <div className="top-participant-container">
         <div className="top-participant-card error">
-          <p>Error al cargar datos: {error}</p>
+          <p>Error loading data: {error}</p>
         </div>
       </div>
     );
@@ -62,7 +62,7 @@ const TopParticipant = () => {
     return (
       <div className="top-participant-container">
         <div className="top-participant-card">
-          <p>No hay participantes registrados</p>
+          <p>No participants registered</p>
         </div>
       </div>
     );
@@ -72,15 +72,15 @@ const TopParticipant = () => {
     <div className="top-participant-container">
       <div className="top-participant-card">
         <div className="crown-icon">👑</div>
-        <h2 className="top-participant-title">Participante Destacado</h2>
+        <h2 className="top-participant-title">Top Participant</h2>
         <div className="participant-info">
           <h3 className="participant-name">{topParticipant.nickname}</h3>
           <p className="participant-amount">
-            Total pagado: <span className="amount-highlight">${topParticipant.total_paid}</span>
+            Total paid: <span className="amount-highlight">${topParticipant.total_paid}</span>
           </p>
         </div>
         <div className="achievement-badge">
-          🏆 Mayor Contribuyente
+          🏆 Top Contributor
         </div>
       </div>
     </div>

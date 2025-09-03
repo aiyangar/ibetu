@@ -4,7 +4,9 @@
   padding: 1rem 0;
   position: sticky;
   top: 0;
-  z-index: 2000; /* Mayor que el layout para estar siempre visible */
+  z-index: 2000; /* Higher than layout to always be visible */
+  height: 80px; /* Fixed height for precise calculations */
+  box-sizing: border-box;
 }
 
 .navbar-container {

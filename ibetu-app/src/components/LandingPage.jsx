@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TopParticipant from './TopParticipant';
 import AuthForm from './auth/AuthForm';
 import PaymentForm from './payment/PaymentForm';
@@ -9,6 +9,31 @@ const LandingPage = () => {
   const [showAuthForm, setShowAuthForm] = useState(false);
   const [showPaymentForm, setShowPaymentForm] = useState(false);
   const { isAuthenticated } = useAuth();
+
+  // Listen for menu navigation events
+  useEffect(() => {
+    const handleMenuNavigation = (event) => {
+      if (event.detail?.action === 'auth') {
+        setShowAuthForm(true);
+        setShowPaymentForm(false);
+      } else if (event.detail?.action === 'champion') {
+        if (isAuthenticated) {
+          setShowPaymentForm(true);
+          setShowAuthForm(false);
+        } else {
+          setShowAuthForm(true);
+          setShowPaymentForm(false);
+        }
+      }
+    };
+
+    // Listen for custom events from navbar
+    window.addEventListener('menu-navigation', handleMenuNavigation);
+    
+    return () => {
+      window.removeEventListener('menu-navigation', handleMenuNavigation);
+    };
+  }, [isAuthenticated]);
 
   const handleBeatChampion = () => {
     if (isAuthenticated) {
@@ -63,9 +88,9 @@ const LandingPage = () => {
 
       <div className="beat-champion-section">
         <h2 style={{ color: 'white', margin: '0 0 20px 0' }}></h2>
-        <button onClick={handleBeatChampion} className="beat-champion-btn">
-          {isAuthenticated ? '🏆 Beat the Champion!' : '🔐 Sign Up & Beat the Champion!'}
-        </button>
+                 <button onClick={handleBeatChampion} className="beat-champion-btn">
+           {isAuthenticated ? '🏆 Beat the Champion!' : '🔐 Sign In & Beat the Champion!'}
+         </button>
         {isAuthenticated && (
           <p className="beat-champion-subtitle">
             Ready to compete? Make a payment higher than the current champion!

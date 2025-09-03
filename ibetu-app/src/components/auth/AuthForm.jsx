@@ -3,7 +3,7 @@ import { supabase } from '../../lib/supabase';
 import '../../styles/AuthForm.css';
 
 const AuthForm = ({ onAuthSuccess }) => {
-  const [isLogin, setIsLogin] = useState(false); // Default to registration mode
+  const [isLogin, setIsLogin] = useState(true); // Default to login mode
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [nickname, setNickname] = useState('');
@@ -106,7 +106,11 @@ const AuthForm = ({ onAuthSuccess }) => {
           {isLogin ? '🚀 Welcome Back!' : '🏆 Join I Bet U & Beat the Champion!'}
         </h2>
         
-        {!isLogin && (
+        {isLogin ? (
+          <p className="auth-form-subtitle">
+            Sign in to compete for the top spot!
+          </p>
+        ) : (
           <p className="auth-form-subtitle">
             Create your account to start competing for the top spot!
           </p>
@@ -188,11 +192,11 @@ const AuthForm = ({ onAuthSuccess }) => {
               {isLogin ? 'Sign Up' : 'Sign In'}
             </button>
           </p>
-          {isLogin && (
-            <p className="auth-info">
-              💡 New users should use "Sign Up" to create an account first
-            </p>
-          )}
+                           {isLogin && (
+                   <p className="auth-info">
+                     💡 New users? Use "Sign Up" to create an account first
+                   </p>
+                 )}
         </div>
       </div>
     </div>

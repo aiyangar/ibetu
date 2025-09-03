@@ -5,6 +5,7 @@ import '../../styles/PaymentForm.css';
 
 const PaymentForm = () => {
   const [currentTop, setCurrentTop] = useState(null);
+  const [currentUserTotal, setCurrentUserTotal] = useState(0);
   const [amount, setAmount] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
@@ -14,7 +15,7 @@ const PaymentForm = () => {
   useEffect(() => {
     // Get current top participant
     fetchCurrentTop();
-  }, []);
+  }, [user]); // Re-fetch when user changes
 
   const fetchCurrentTop = async () => {
     try {
@@ -27,6 +28,12 @@ const PaymentForm = () => {
       if (error) throw error;
       if (data && data.length > 0) {
         setCurrentTop(data[0]);
+      }
+
+      // Also fetch current user's total
+      if (user) {
+        const userTotal = await getCurrentUserTotal();
+        setCurrentUserTotal(userTotal);
       }
     } catch (error) {
       console.error('Error fetching top participant:', error);
@@ -48,8 +55,9 @@ const PaymentForm = () => {
       return;
     }
 
-    if (currentTop && paymentAmount <= currentTop.total_paid) {
-      setMessage(`You need to pay more than $${currentTop.total_paid} to beat ${currentTop.nickname}!`);
+    if (currentTop && (currentUserTotal + paymentAmount) <= currentTop.total_paid) {
+      const amountNeeded = currentTop.total_paid - currentUserTotal + 1;
+      setMessage(`You need to pay at least $${amountNeeded} to beat ${currentTop.nickname}!`);
       setMessageType('error');
       return;
     }
@@ -105,7 +113,31 @@ const PaymentForm = () => {
 
   const getMinAmount = () => {
     if (!currentTop) return 0;
-    return (currentTop.total_paid + 1).toFixed(2);
+    const amountNeeded = currentTop.total_paid - currentUserTotal + 1;
+    return Math.max(0, amountNeeded).toFixed(2);
+  };
+
+  const getCurrentUserTotal = async () => {
+    try {
+      const { data: participantData, error } = await supabase
+        .from('participants')
+        .select('total_paid')
+        .eq('email', user.email)
+        .single();
+
+      if (error) throw error;
+      return participantData.total_paid || 0;
+    } catch (error) {
+      console.error('Error fetching user total:', error);
+      return 0;
+    }
+  };
+
+  const getAmountNeeded = async () => {
+    if (!currentTop) return 0;
+    const userTotal = await getCurrentUserTotal();
+    const amountNeeded = currentTop.total_paid - userTotal + 1;
+    return Math.max(0, amountNeeded).toFixed(2);
   };
 
   if (!isAuthenticated) {
@@ -126,35 +158,36 @@ const PaymentForm = () => {
       <div className="payment-form-card">
         <h2 className="payment-form-title">🏆 Beat the Champion!</h2>
         
-        {currentTop && (
-          <div className="current-champion">
-            <h3>Current Champion: {currentTop.nickname}</h3>
-            <p className="champion-amount">Total: <span>${currentTop.total_paid}</span></p>
-            <p className="challenge-text">
-              To become the new champion, you need to pay more than ${currentTop.total_paid}!
-            </p>
-          </div>
-        )}
+                 {currentTop && (
+           <div className="current-champion">
+             <h3>Current Champion: {currentTop.nickname}</h3>
+             <p className="champion-amount">Total: <span>${currentTop.total_paid}</span></p>
+             <p className="user-progress">Your Total: <span>${currentUserTotal}</span></p>
+             <p className="challenge-text">
+               You need to pay at least <span className="amount-needed">${getMinAmount()}</span> to become the new champion!
+             </p>
+           </div>
+         )}
 
         <form onSubmit={handleSubmit} className="payment-form">
           <div className="form-group">
             <label htmlFor="amount">Payment Amount ($)</label>
-            <input
-              type="number"
-              id="amount"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              placeholder={`Min: $${getMinAmount()}`}
-              min={getMinAmount()}
-              step="0.01"
-              required
-              className="form-input"
-            />
-            {currentTop && (
-              <small className="form-help">
-                Minimum amount to beat {currentTop.nickname}: ${getMinAmount()}
-              </small>
-            )}
+                         <input
+               type="number"
+               id="amount"
+               value={amount}
+               onChange={(e) => setAmount(e.target.value)}
+               placeholder={`Min: $${getMinAmount()}`}
+               min={getMinAmount()}
+               step="0.01"
+               required
+               className="form-input"
+             />
+             {currentTop && (
+               <small className="form-help">
+                 You need to pay at least $${getMinAmount()} to beat {currentTop.nickname}
+               </small>
+             )}
           </div>
 
           {message && (
@@ -175,8 +208,8 @@ const PaymentForm = () => {
         <div className="payment-info">
           <h4>💰 How it works:</h4>
           <ul>
-            <li>Make a payment higher than the current champion</li>
             <li>Your payment is added to your previous total</li>
+            <li>You only need to pay the difference to beat the champion</li>
             <li>Become the new champion when you have the highest total</li>
             <li>All payments are tracked and cumulative</li>
           </ul>

@@ -1,12 +1,14 @@
 .navbar {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  padding: 1rem 0;
+  padding: 0;
   position: sticky;
   top: 0;
   z-index: 2000; /* Higher than layout to always be visible */
   height: 80px; /* Fixed height for precise calculations */
   box-sizing: border-box;
+  display: flex;
+  align-items: center;
 }
 
 .navbar-container {
@@ -15,7 +17,10 @@
   padding: 0 2rem;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  position: relative;
+  height: 100%;
+  width: 100%;
 }
 
 .navbar-title {
@@ -26,6 +31,156 @@
   text-align: center;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  flex: 1;
+}
+
+/* Hamburger Menu Styles */
+.hamburger-menu {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 30px;
+  height: 30px;
+  position: relative;
+  z-index: 2001;
+  transition: all 0.3s ease;
+  align-self: center;
+}
+
+.hamburger-line {
+  width: 100%;
+  height: 3px;
+  background: white;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+.hamburger-menu.active .hamburger-line:nth-child(1) {
+  transform: rotate(45deg) translate(6px, 6px);
+}
+
+.hamburger-menu.active .hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger-menu.active .hamburger-line:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* Dropdown Menu */
+.navbar-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+  backdrop-filter: blur(20px);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  padding: 0;
+  min-width: 200px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  z-index: 2000;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.menu-header {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  text-align: center;
+}
+
+.auth-status {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.navbar-menu.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  animation: menuSlideIn 0.3s ease-out;
+}
+
+@keyframes menuSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.menu-item {
+  background: none;
+  border: none;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  width: 100%;
+  text-align: left;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.menu-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateX(5px);
+}
+
+.menu-item:active {
+  transform: translateX(5px) scale(0.98);
+}
+
+.auth-item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.champion-item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.signout-item {
+  color: #FF6B6B;
+}
+
+.signout-item:hover {
+  background: rgba(255, 107, 107, 0.1);
+}
+
+/* Menu Backdrop */
+.menu-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
+  z-index: 1999;
 }
 
 /* Responsive design */
@@ -36,5 +191,35 @@
   
   .navbar-container {
     padding: 0 1rem;
+  }
+  
+  .navbar-menu {
+    min-width: 180px;
+    right: 1rem;
+  }
+  
+  .menu-item {
+    padding: 0.875rem 1.25rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-title {
+    font-size: 1.25rem;
+  }
+  
+  .hamburger-menu {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .hamburger-line {
+    height: 2.5px;
+  }
+  
+  .navbar-menu {
+    min-width: 160px;
+    right: 0.5rem;
   }
 }

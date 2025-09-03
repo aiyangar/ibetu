@@ -93,6 +93,26 @@
   font-weight: 600;
 }
 
+.user-progress {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.1rem;
+  margin: 0 0 1rem 0;
+}
+
+.user-progress span {
+  color: #4CAF50;
+  font-weight: 700;
+  font-size: 1.3rem;
+  text-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+}
+
+.amount-needed {
+  color: #FF6B6B;
+  font-weight: 700;
+  font-size: 1.2rem;
+  text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+}
+
 .payment-form {
   display: flex;
   flex-direction: column;

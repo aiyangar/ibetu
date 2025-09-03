@@ -1,0 +1,15 @@
+# Exclude PWA-related files and dependencies
+node_modules/vite-plugin-pwa
+node_modules/workbox-*
+node_modules/@apideck/better-ajv-errors
+
+# Exclude build artifacts
+dist/
+.vercel/
+
+# Exclude development files
+*.log
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
